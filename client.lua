@@ -11,7 +11,7 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10)
 
-        local ped = GetPlayerPed(-1)
+        local ped = PlayerPedId()
 
         if IsPedInAnyVehicle(ped, false) and not wlaczonyHud then
             wlaczonyHud = true
