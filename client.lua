@@ -1,16 +1,7 @@
-ESX = nil
 wlaczonyHud = false
 
 Citizen.CreateThread(function()
-    while ESX == nil do
-        TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-    end
-end)
-
-Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(10)
-
         local ped = PlayerPedId()
 
         if IsPedInAnyVehicle(ped, false) and not wlaczonyHud then
@@ -28,18 +19,20 @@ Citizen.CreateThread(function()
             local x, y, z = table.unpack(GetEntityCoords(ped))
             local ul, ul2 = GetStreetNameAtCoord(x, y, z)
             local ulica = GetStreetNameFromHashKey(ul)
-            local szybki = (GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))*3.6)
-            local predkosc = ESX.Math.Round(szybki)
+            local predkosc = (GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))*3.6)
+            local predkosc2 = tonumber(string.format("%." .. 0 .. "f", predkosc))
             local obr = GetVehicleCurrentRpm(GetVehiclePedIsIn(GetPlayerPed(-1)))
             local finalneObroty = obr*100
 
             SendNUIMessage({
                 typ = "zmien",
-                predkosc = predkosc,
+                predkosc = predkosc2,
                 ulica = ulica,
                 obroty = finalneObroty
             })
         end
+
+        Citizen.Wait(50)
     end
 end)
 
